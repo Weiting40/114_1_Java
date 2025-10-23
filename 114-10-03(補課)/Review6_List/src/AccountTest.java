@@ -1,23 +1,22 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class AccountTest {
-    private static int customerCount;
-    public static void main(String[] args){
-        Account[] customers = new Account[10];
-        Account acc1 =new Account("A001","Alice",5000);
+    public static void main(String[] args) {
+        List<Account> customers = new ArrayList<>();
+        Account acc1 = new Account("A001","Alice",5000);
         addCustomer(customers, acc1);
-        Account acc2 =new Account("A002","Bob",3000);
+        Account acc2 = new Account("A002","Bob",3000);
         addCustomer(customers, acc2);
-        Account acc3 =new Account("A003","Charlie",-100);
+        Account acc3 = new Account("A003","Charlie",7000);
         addCustomer(customers, acc3);
 
         operation(customers);
-        //顯示所有客戶帳戶資料
-        //    System.out.println("\n所有客戶帳戶資料:");
-        //   printCustomerAccounts(customers);
     }
 
-    public static void operation(Account[] customers){
+
+    public static void operation(List<Account> customers){
         Scanner scanner = new Scanner(System.in);
         Account selectedAccount = null;
         while (true){
@@ -48,6 +47,11 @@ public class AccountTest {
                     printCustomerAccounts(customers);
                     break;
                 case 4:
+                    System.out.println("輸入要刪除的帳戶號碼:");
+                    String deleteAccNumber = scanner.nextLine();
+                    deleteCustomer(customers, deleteAccNumber);
+                    break;
+                case 5:
                     System.out.println("離開系統，感謝使用!");
                     return;
                 default:
@@ -56,29 +60,39 @@ public class AccountTest {
         }
     }
 
-    public static Account customerInAction(Account[] customers, String accountNumber){
-        for (int i = 0; i< customerCount; i++){
-            if(customers[i].getAccountNumber().equals(accountNumber)){
-                return customers[i];
+    public static Account customerInAction(List<Account> customers, String accountNumber){
+        for (Account account : customers){
+            if(account.getAccountNumber().equals(accountNumber)){
+                return account;
             }
         }
         System.out.println("查無此帳戶號碼:" + accountNumber);
         return null;
     }
 
-    public static void addCustomer(Account[] customers, Account newAccount){
-        if(customerCount < customers.length){
-            customers[customerCount]= newAccount;
-            customerCount++;
-            System.out.println("新增客戶成功:" +newAccount.getAccountNumber());
-            return;
+    public static void addCustomer(List<Account> customers, Account newAccount){
+        customers.add(newAccount);
+        System.out.println("成功新增客戶帳戶:" + newAccount.getAccountNumber());
+    }
+    public static void deleteCustomer(List<Account> customers, String accountNumber){
+        Account accountToRemove = null;
+        for (Account account : customers){
+            if(account.getAccountNumber().equals(accountNumber)){
+                accountToRemove = account;
+                break;
+            }
         }
-        System.out.println("無法新增客戶，客戶數量已達上限");
+        if(accountToRemove != null){
+            customers.remove(accountToRemove);
+            System.out.println("成功刪除帳戶:" + accountNumber);
+        } else {
+            System.out.println("查無此帳戶號碼，無法刪除:" + accountNumber);
+        }
     }
 
-    public static void printCustomerAccounts(Account[] customers){
-        for (int i = 0; i< customerCount; i++){
-            printCustomerInfo(customers[i]);
+    public static void printCustomerAccounts(List<Account> customers){
+        for (Account account : customers){
+            printCustomerInfo(account);
         }
     }
 
@@ -98,6 +112,7 @@ public class AccountTest {
         System.out.println("1.新增客戶");
         System.out.println("2.列印指定客戶帳戶資訊");
         System.out.println("3.顯示所有客戶帳戶資訊");
-        System.out.println("4.離開");
+        System.out.println("4.刪除客戶帳戶");
+        System.out.println("5.離開");
     }
 }
