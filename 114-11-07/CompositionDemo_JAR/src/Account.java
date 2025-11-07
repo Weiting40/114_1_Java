@@ -1,51 +1,60 @@
 import java.time.LocalDateTime;
-
 public class Account {
     private static int accountCount = 0; // 帳戶數量統計
 
     // 帳戶號碼，唯一識別每個帳戶
     private String accountNumber;
     // 帳戶擁有者名稱
-    //private String ownerName;
-    private Person owner;
+    private String ownerName;
+    // 身分證字號或其他識別號
+    private String idNumber;
     // 帳戶餘額
     private double balance;
 
-
-    //帳戶開立日期與時間
+    // 帳戶開立日期與時間
     private Date openingDate;
     private Time2 openingTime;
+
     /**
      * 建構子，初始化帳戶號碼與初始餘額
      * @param accountNumber 帳戶號碼
+     * @param ownerName 帳戶擁有者名稱
+     * @param idNumber 身分證字號或其他識別號
      * @param initialBalance 初始餘額
      */
-    public Account(String accountNumber, String ownerName, String ownerID,double initialBalance) {
-        LocalDateTime now = LocalDateTime.now();// 取得目前日期與時間
+    public Account(String accountNumber, String ownerName, String idNumber, double initialBalance) {
+        LocalDateTime now = LocalDateTime.now(); // 取得目前日期與時間
         this.setAccountNumber(accountNumber);
-        this.owner = new Person(ownerName, ownerID);
+        this.ownerName = ownerName;
+        this.idNumber = idNumber;
         try {
             this.setBalance(initialBalance);
         } catch (IllegalArgumentException e) {
             System.out.println("初始餘額錯誤: " + e.getMessage() + "，將餘額設為0");
+            this.balance = 0; // 若初始餘額不合法，設為 0
         }
         accountCount++; // 帳戶數量加1
 
         // 記錄帳戶開立的日期與時間
-        this.openingDate = new Date(now.getMonthValue(),now.getDayOfMonth(),now.getYear()); // 假設 Date 類別有無參數建構子
-        this.openingTime = new Time2(now.getHour(), now.getMinute(), now.getSecond()); // 假設 Time2 類別有無參數建構子
+        this.openingDate = new Date(now.getMonthValue(), now.getDayOfMonth(), now.getYear());
+        this.openingTime = new Time2(now.getHour(), now.getMinute(), now.getSecond());
+    }
+
+    // 原本的 3 參數建構子改為呼叫 4 參數版本（身分證預設為未知）
+    public Account(String accountNumber, String ownerName, double initialBalance) {
+        this(accountNumber, ownerName, "未知", initialBalance);
     }
 
     public Account(String accountNumber, double initialBalance) {
-        this(accountNumber, "未知", "00000000",initialBalance);
+        this(accountNumber, "未知", "未知", initialBalance);
     }
 
     public Account() {
-        this("未知", "未知", "00000000",0);
+        this("未知", "未知", "未知", 0);
     }
 
     public Account(String accountNumber) {
-        this(accountNumber, "未知", "00000000",0);
+        this(accountNumber, "未知", "未知", 0);
     }
 
     /**
@@ -69,8 +78,14 @@ public class Account {
      * @return 帳戶擁有者名稱
      */
     public String getOwnerName() {
-        return getOwnerName();
+        return ownerName;
     }
+
+    /**
+     * 取得身分證字號
+     * @return 身分證字號
+     */
+    public String getIdNumber() { return idNumber; }
 
     /**
      * 設定帳戶餘額
@@ -92,6 +107,12 @@ public class Account {
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
     }
+
+    /**
+     * 設定身分證字號
+     * @param idNumber 欲設定的身分證字號
+     */
+    public void setIdNumber(String idNumber) { this.idNumber = idNumber; }
 
     /**
      * 存款方法，將指定金額存入帳戶
@@ -119,8 +140,14 @@ public class Account {
         }
     }
 
+    /**
+     * 以易讀格式回傳帳戶資訊（供 print 使用）
+     */
+    @Override
     public String toString() {
-        return String.format("帳戶號碼: %s, 持有人: %s, 餘額: %.2f, 開立日期: %s, 開立時間: %s",
-                accountNumber, owner.toString(), balance, openingDate.toString(), openingTime.toString());
+        return "帳戶號碼: " + accountNumber +
+                ", 持有人: " + ownerName +
+                ", 身分證: " + idNumber +
+                ", 餘額: " + balance;
     }
 }
