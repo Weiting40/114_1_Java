@@ -11,12 +11,12 @@ public class Magician extends Role {
         return healPower;
     }
     // 攻擊方法:對對手造成傷害
-    public void attack(Magician opponent) {
+    public void attack(Role opponent) {
         opponent.setHealth(opponent.getHealth() - this.getAttackPower());
         System.out.println(this.getName() + " 攻擊 " + opponent.getName() + "，造成 " + this.getAttackPower() + " 點傷害！");
     }
     // 治療方法:為隊友恢復生命值
-    public void heal(SwordMan ally) {
+    public void heal(Role ally) {
         ally.setHealth(ally.getHealth() + this.healPower );
         System.out.println(this.getName() + " 治療" + ally.getName() + "恢復 " + healPower + " 點生命值！");
     }
