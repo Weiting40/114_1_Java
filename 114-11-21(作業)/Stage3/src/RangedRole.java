@@ -10,12 +10,25 @@ public abstract class RangedRole extends Role {
         this.energy = maxEnergy;
     }
 
-    public int getRange() { return range; }
-    public int getEnergy() { return energy; }
-    public int getMaxEnergy() { return maxEnergy; }
-    public void setEnergy(int energy) { this.energy = energy; }
+    public int getRange() {
+        return range;
+    }
 
-    public boolean isInRange(int distance) { return distance <= range; }
+    public int getEnergy() {
+        return energy;
+    }
+
+    public int getMaxEnergy() {
+        return maxEnergy;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public boolean isInRange(int distance) {
+        return distance <= range;
+    }
 
     public boolean consumeEnergy(int amount) {
         if (energy >= amount) {
@@ -24,13 +37,4 @@ public abstract class RangedRole extends Role {
         }
         return false;
     }
-
-    public void restoreEnergy(int amount) {
-        energy = Math.min(maxEnergy, energy + amount);
-    }
-
-    // 抽象方法
-    public abstract String getRangedAttackType();
-    protected abstract void onRangedPrepare();
-    protected abstract void onRangedRecover();
 }

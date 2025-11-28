@@ -1,4 +1,4 @@
-public class Archer extends RangedRole {
+public abstract class Archer extends RangedRole {
 
     // 建構子：弓箭手基本屬性
     public Archer(String name, int health, int attackPower, int range, int maxEnergy) {

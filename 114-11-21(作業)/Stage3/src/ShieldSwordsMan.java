@@ -64,6 +64,23 @@ public class ShieldSwordsMan extends SwordsMan{
     public void afterBattle() {
         System.out.println("🛡️  " + this.getName() + " 檢視盾牌上的新傷痕，並進行簡單修補。");
     }
+    // File: Stage3/src/Archer.java
+    public class Archer extends RangedRole {
+        private int arrowCount;
 
+        public Archer(String name, int health, int attackPower, int range, int maxEnergy, int arrowCount) {
+            super(name, health, attackPower, range, maxEnergy);
+            this.arrowCount = arrowCount;
+        }
+
+        public int getArrowCount() {
+            return arrowCount;
+        }
+
+        // 其他已有方法（attack、showSpecialSkill 等）保持不動或由原檔實作
+        @Override
+        public String getRangedAttackType() {
+            return "精準箭矢";
+        }
 
 }
