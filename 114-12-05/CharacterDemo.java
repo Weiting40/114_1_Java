@@ -12,7 +12,7 @@ public class CharacterDemo {
         System.out.println("ch4 = " + ch4);
         
         // Character 包裝類別
-        Character chObj = 'B';
+        Character chObj = 'B';x 
         System.out.println("Character物件: " + chObj);
     }
 }
